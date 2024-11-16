@@ -79,15 +79,9 @@ const EditorToolbar = ({ viewMode, setViewMode, mdiViewRef, onNewEntry }) => {
       </div>
 
       {/* View controls - right side */}
-      <div className="flex items-center gap-2 min-w-[200px] border-l border-border dark:border-border-dark pl-4">
-        <ToolbarButton 
-          icon={Layout} 
-          title="Switch View Mode" 
-          onClick={() => setViewMode(viewMode === 'mdi' ? 'tabbed' : 'mdi')} 
-        />
-
+      <div className="flex items-center gap-2 border-l border-border dark:border-border-dark pl-4">
         {viewMode === 'mdi' && (
-          <div className="flex items-center gap-2">
+          <>
             <ToolbarButton
               icon={LayoutGrid}
               title="Tile Windows"
@@ -103,8 +97,13 @@ const EditorToolbar = ({ viewMode, setViewMode, mdiViewRef, onNewEntry }) => {
               title="Minimize All"
               onClick={() => mdiViewRef.current?.minimizeAll()}
             />
-          </div>
+          </>
         )}
+        <ToolbarButton 
+          icon={Layout} 
+          title="Switch View Mode" 
+          onClick={() => setViewMode(viewMode === 'mdi' ? 'tabbed' : 'mdi')} 
+        />
       </div>
     </div>
   );

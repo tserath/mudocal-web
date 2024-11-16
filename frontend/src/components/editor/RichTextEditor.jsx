@@ -5,13 +5,16 @@ const RichTextEditor = ({ content, onChange }) => {
   const isInternalChange = useRef(false);
   const contentRef = useRef(content);
 
+  // Update contentRef when content prop changes
   useEffect(() => {
     contentRef.current = content;
   }, [content]);
 
+  // Update editor content when content prop changes
   useEffect(() => {
+    console.log('RichTextEditor content changed:', { content, currentHTML: editorRef.current?.innerHTML });
     const div = editorRef.current;
-    if (div && !isInternalChange.current && div.innerHTML !== contentRef.current) {
+    if (div && !isInternalChange.current && div.innerHTML !== content) {
       // Save cursor position if editor is focused
       let savedCursor = null;
       if (document.activeElement === div) {
@@ -25,7 +28,7 @@ const RichTextEditor = ({ content, onChange }) => {
       }
 
       // Update content
-      div.innerHTML = contentRef.current || '';
+      div.innerHTML = content || '';
 
       // Restore cursor position if we had one
       if (savedCursor && document.activeElement === div) {
@@ -45,7 +48,7 @@ const RichTextEditor = ({ content, onChange }) => {
       }
     }
     isInternalChange.current = false;
-  }, []);
+  }, [content]); // Now depends on content prop
 
   const handleInput = useCallback((e) => {
     e.preventDefault();
@@ -61,14 +64,6 @@ const RichTextEditor = ({ content, onChange }) => {
   const handleClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-  }, []);
-
-  // Initialize with content on first render
-  useEffect(() => {
-    if (editorRef.current && content) {
-      editorRef.current.innerHTML = content;
-      contentRef.current = content;
-    }
   }, []);
 
   return (

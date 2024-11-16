@@ -39,8 +39,14 @@ const MainContent = ({ entries, onUpdateEntry, onCloseEntry, onNewEntry }) => {
         ) : (
           <TabbedView
             entries={entries}
-            onUpdateEntry={onUpdateEntry}
-            onCloseEntry={onCloseEntry}
+            onUpdateEntry={(id, updates) => {
+              console.log('TabbedView onUpdateEntry:', { id, updates });
+              onUpdateEntry(id, updates);
+            }}
+            onCloseEntry={(id) => {
+              console.log('TabbedView onCloseEntry:', { id });
+              onCloseEntry(id);
+            }}
           />
         )}
       </div>

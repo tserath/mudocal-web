@@ -139,7 +139,10 @@ const MDIWindow = ({
       bounds="parent"
       dragHandleClassName="window-drag-handle"
     >
-      <div className="w-full h-full flex flex-col bg-primary dark:bg-primary-dark rounded-lg shadow-lg border border-border dark:border-border-dark overflow-hidden" onClick={() => onActivate(id)}>
+      <div 
+        className="w-full h-full flex flex-col bg-primary dark:bg-primary-dark rounded-lg shadow-lg border border-border dark:border-border-dark overflow-hidden" 
+        onMouseDown={() => onActivate(id)}
+      >
         <div className="window-drag-handle flex items-center justify-between p-2 bg-secondary dark:bg-secondary-dark border-b border-border dark:border-border-dark">
           <span className="text-sm font-medium truncate">{entry.title || 'Untitled'}</span>
           <div className="flex items-center gap-1">

@@ -127,7 +127,11 @@ const App = () => {
 
     const newEntry = {
       id,
-      title: `Entry ${now.toLocaleTimeString()}`,
+      title: now.toLocaleDateString('en-US', { 
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      }),
       content: '',
       created: now.toISOString(),
       modified: now.toISOString(),

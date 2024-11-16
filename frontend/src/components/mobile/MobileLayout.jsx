@@ -18,6 +18,15 @@ const DocumentList = ({ entries, onEntrySelect }) => {
     }
   };
 
+  const stripHtml = (html) => {
+    if (!html) return '';
+    // Create a temporary div to hold the HTML
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    // Get the text content without HTML tags
+    return temp.textContent || temp.innerText || '';
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 p-4">
       {entries.size === 0 ? (
@@ -35,7 +44,7 @@ const DocumentList = ({ entries, onEntrySelect }) => {
               {entry.title || formatDate(entry.created)}
             </h3>
             <p className="text-text-muted dark:text-text-muted-dark line-clamp-2">
-              {entry.content || 'No content'}
+              {stripHtml(entry.content) || 'No content'}
             </p>
             {entry.tags?.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
