@@ -8,11 +8,25 @@ const FileList = ({ date, entries, onOpenEntry, onRenameEntry, onDeleteEntry }) 
     const [contextMenu, setContextMenu] = useState(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
+    console.log('FileList received:', { date: date?.toISOString(), entriesCount: entries?.length });
+
     // Filter entries for the selected date
-    const filteredEntries = Array.from(entries.entries()).filter(([_, entry]) => {
+    const filteredEntries = entries.filter(entry => {
+        if (!entry || !entry.created || !date) return false;
         const entryDate = new Date(entry.created);
-        return entryDate.toDateString() === date.toDateString();
-    }).map(([_, entry]) => entry);
+        const selectedDate = new Date(date);
+        return entryDate.getFullYear() === selectedDate.getFullYear() &&
+               entryDate.getMonth() === selectedDate.getMonth() &&
+               entryDate.getDate() === selectedDate.getDate();
+    });
+
+    console.log('FileList filtered:', { 
+        filteredCount: filteredEntries.length,
+        firstEntry: filteredEntries[0]?.created,
+        selectedDate: date?.toISOString()
+    });
+
+    console.log('FileList rendering with:', { date, entriesCount: entries.length, filteredCount: filteredEntries.length });
 
     return (
         <div className="mt-4" onClick={(e) => e.stopPropagation()}>

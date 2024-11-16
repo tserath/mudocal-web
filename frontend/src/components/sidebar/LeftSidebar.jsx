@@ -58,11 +58,26 @@ const LeftSidebar = ({
     setContextMenuDate(null);
   }, [contextMenuDate, onNewEntry]);
 
+  const hasEntriesOnDate = useCallback((date) => {
+    return entries.some(entry => {
+      const entryDate = new Date(entry.created);
+      return entryDate.toDateString() === date.toDateString();
+    });
+  }, [entries]);
+
   const handleDateChange = useCallback((date) => {
+    console.log('LeftSidebar handleDateChange:', { date: date?.toISOString() });
     if (typeof onDateSelect === 'function') {
       onDateSelect(date);
     }
   }, [onDateSelect]);
+
+  const handleClickDay = useCallback((value, event) => {
+    console.log('LeftSidebar handleClickDay:', { value: value?.toISOString() });
+    event.preventDefault();
+    event.stopPropagation();
+    handleDateChange(value);
+  }, [handleDateChange]);
 
   return (
     <div 
@@ -130,22 +145,21 @@ const LeftSidebar = ({
                     next2Label={null}
                     prev2Label={null}
                     navigationLabel={({ date }) => format(date, 'MMMM yyyy')}
-                    minDetail="month"
+                    minDetail="year"
+                    maxDetail="month"
+                    defaultView="month"
                     showNavigation={true}
-                    onClickDay={(value, event) => {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      handleDateChange(value);
-                    }}
+                    tileClassName={({ date }) => 
+                      hasEntriesOnDate(date) ? 'has-entries' : null
+                    }
                     tileContent={({ date }) => (
                       <div
-                        className="absolute inset-0"
+                        className="absolute inset-0 pointer-events-none"
                         onContextMenu={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                           handleContextMenu(e, date);
                         }}
-                        onClick={(e) => e.stopPropagation()}
                       />
                     )}
                   />

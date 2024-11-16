@@ -1,19 +1,13 @@
 /* Base calendar styles */
 .calendar-custom.react-calendar {
-  width: 100%;
-  background: white !important;
-  color: black !important;
-  border: none;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
+  @apply w-full bg-primary dark:bg-primary-dark border-none font-normal text-text dark:text-text-dark;
   pointer-events: auto;
   position: relative;
   z-index: 1;
 }
 
 .dark .calendar-custom.react-calendar {
-  background: #1a1b1e !important;
-  color: #A6A7AB !important;
+  @apply text-text-dark;
 }
 
 .calendar-custom .react-calendar__navigation {
@@ -27,7 +21,7 @@
 
 .calendar-custom .react-calendar__navigation button {
   min-width: 44px;
-  color: inherit !important;
+  @apply text-text dark:text-text-dark;
   background: none;
   pointer-events: auto;
   position: relative;
@@ -40,12 +34,11 @@
 
 .calendar-custom .react-calendar__navigation button:enabled:hover,
 .calendar-custom .react-calendar__navigation button:enabled:focus {
-  background-color: #f3f4f6 !important;
+  @apply bg-secondary dark:bg-secondary-dark;
 }
 
 .dark .calendar-custom .react-calendar__navigation button:enabled:hover,
 .dark .calendar-custom .react-calendar__navigation button:enabled:focus {
-  background-color: #25262b !important;
 }
 
 .calendar-custom .react-calendar__month-view {
@@ -54,38 +47,35 @@
   z-index: 1;
 }
 
-/* Calendar grid styles */
+/* Weekday styles */
 .calendar-custom .react-calendar__month-view__weekdays {
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.75em;
-  color: inherit;
+  @apply text-text-muted dark:text-text-muted-dark font-semibold text-center border-none;
 }
 
 .calendar-custom .react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
+  @apply p-2 border-none;
+}
+
+.calendar-custom .react-calendar__month-view__weekdays__weekday abbr {
+  @apply no-underline font-semibold;
+}
+
+.calendar-custom .react-calendar__month-view__days__day {
+  @apply text-text dark:text-text-dark;
 }
 
 .calendar-custom .react-calendar__month-view__days__day--weekend {
-  color: inherit;
+  @apply text-text dark:text-text-dark;
   opacity: 0.7;
 }
 
 .calendar-custom .react-calendar__month-view__days__day--neighboringMonth {
-  color: inherit;
-  opacity: 0.4;
+  @apply text-text-muted dark:text-text-muted-dark;
 }
 
 /* Tile styles */
 .calendar-custom .react-calendar__tile {
-  max-width: 100%;
-  padding: 10px 6.6667px;
-  color: inherit !important;
-  background: none;
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
+  @apply max-w-full relative p-2 text-center bg-transparent rounded-lg;
 }
 
 .calendar-custom .react-calendar__tile:disabled {
@@ -96,79 +86,48 @@
 
 .calendar-custom .react-calendar__tile:enabled:hover,
 .calendar-custom .react-calendar__tile:enabled:focus {
-  background-color: #f3f4f6 !important;
+  @apply bg-secondary dark:bg-secondary-dark rounded-lg;
 }
 
 .dark .calendar-custom .react-calendar__tile:enabled:hover,
 .dark .calendar-custom .react-calendar__tile:enabled:focus {
-  background-color: #25262b !important;
 }
 
 .calendar-custom .react-calendar__tile--now {
-  background-color: rgba(96, 165, 250, 0.1) !important;
+  @apply bg-blue-100/10 dark:bg-blue-900/10 rounded-lg;
 }
 
 .calendar-custom .react-calendar__tile--hasActive,
 .calendar-custom .react-calendar__tile--active {
-  background-color: #f3f4f6 !important;
-  color: inherit;
+  @apply bg-accent dark:bg-accent-dark text-white rounded-lg;
+}
+
+.calendar-custom .react-calendar__tile--active {
+  @apply bg-accent dark:bg-accent-dark text-white;
 }
 
 .dark .calendar-custom .react-calendar__tile--hasActive,
 .dark .calendar-custom .react-calendar__tile--active {
-  background-color: #25262b !important;
-  color: inherit;
-}
-
-.calendar-custom .react-calendar__tile--active {
-  background-color: #f3f4f6 !important;
-}
-
-.dark .calendar-custom .react-calendar__tile--active {
-  background-color: #25262b !important;
 }
 
 /* Entry indicator */
 .calendar-custom .has-entries {
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
-}
-
-.calendar-custom .has-entries::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: #60a5fa;
-  pointer-events: none;
+  @apply relative rounded-lg bg-accent/30 dark:bg-accent-dark/40;
 }
 
 .calendar-custom .has-entries:hover,
 .calendar-custom .has-entries:focus {
-  background-color: #f3f4f6 !important;
-}
-
-.dark .calendar-custom .has-entries:hover,
-.dark .calendar-custom .has-entries:focus {
-  background-color: #25262b !important;
+  @apply bg-accent/40 dark:bg-accent-dark/50 rounded-lg;
 }
 
 /* Calendar container */
 .calendar-container {
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
+  @apply relative w-full pointer-events-auto;
 }
 
 /* Mobile calendar styles */
 .mobile-calendar .react-calendar {
-  width: 100%;
-  background: white !important;
+  @apply w-full bg-primary dark:bg-primary-dark border-none font-normal text-text dark:text-text-dark;
   color: black !important;
   pointer-events: auto;
   position: relative;
@@ -176,37 +135,5 @@
 }
 
 .dark .mobile-calendar .react-calendar {
-  background: #1a1b1e !important;
-  color: #A6A7AB !important;
-}
-
-/* Theme variables */
-:root {
-  --primary-color: #ffffff;
-  --primary-color-dark: #1A1B1E;
-  --secondary-color: #f3f4f6;
-  --secondary-color-dark: #25262B;
-  --accent-color: #2563eb;
-  --accent-color-dark: #2C2E33;
-  --accent-hover-color: #1d4ed8;
-  --accent-hover-color-dark: #373A40;
-  --accent-color-10: rgba(37, 99, 235, 0.1);
-  --accent-color-20: rgba(37, 99, 235, 0.2);
-  --border-color: #e5e7eb;
-  --border-color-dark: #373A40;
-  --text-color: #111827;
-  --text-color-dark: #A6A7AB;
-  --text-muted-color: #6b7280;
-  --text-muted-color-dark: #909296;
-}
-
-/* Dark mode */
-.dark {
-  --primary-color: var(--primary-color-dark);
-  --secondary-color: var(--secondary-color-dark);
-  --accent-color: var(--accent-color-dark);
-  --accent-hover-color: var(--accent-hover-color-dark);
-  --border-color: var(--border-color-dark);
-  --text-color: var(--text-color-dark);
-  --text-muted-color: var(--text-muted-color-dark);
+  @apply text-text-dark;
 }
