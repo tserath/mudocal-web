@@ -1,0 +1,16 @@
+# docker-compose.yml
+services:
+  app:
+    #image: ghcr.io/tserath/eradia:latest
+    container_name: eradia
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8120:80"
+    volumes:
+      - ./journal:/journal:delegated
+      - ./config:/config:delegated
+    environment:
+      - NODE_ENV=production
+    user: "1000:1000"  # Run as your user ID
