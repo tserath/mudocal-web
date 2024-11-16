@@ -16,11 +16,21 @@ const MobileSearch = ({ entries, onEntrySelect, onClose }) => {
     }
   };
 
+  const stripHtml = (html) => {
+    if (!html) return '';
+    // Create a temporary div to hold the HTML
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    // Get the text content without HTML tags
+    return temp.textContent || temp.innerText || '';
+  };
+
   const filteredEntries = Array.from(entries.values()).filter(entry => {
     const searchLower = searchQuery.toLowerCase();
+    const contentText = stripHtml(entry.content || '').toLowerCase();
     return (
       entry.title?.toLowerCase().includes(searchLower) ||
-      entry.content?.toLowerCase().includes(searchLower) ||
+      contentText.includes(searchLower) ||
       entry.tags?.some(tag => tag.toLowerCase().includes(searchLower))
     );
   });
@@ -50,37 +60,34 @@ const MobileSearch = ({ entries, onEntrySelect, onClose }) => {
         </div>
       </div>
 
-      {/* Search Results */}
-      <div className="flex-1 overflow-y-auto p-4">
-        {filteredEntries.length === 0 ? (
-          <div className="text-center py-8 text-text-muted dark:text-text-muted-dark">
-            {searchQuery ? 'No matching entries found' : 'Start typing to search'}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredEntries.map(entry => (
+      {/* Results */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-4 p-4">
+          {filteredEntries.length === 0 ? (
+            <div className="bg-secondary dark:bg-secondary-dark rounded-lg p-4">
+              <p className="text-text-muted dark:text-text-muted-dark">
+                {searchQuery ? 'No matching entries found' : 'Enter a search term'}
+              </p>
+            </div>
+          ) : (
+            filteredEntries.map(entry => (
               <div
                 key={entry.id}
-                onClick={() => {
-                  onEntrySelect(entry);
-                  onClose();
-                }}
                 className="p-4 bg-secondary dark:bg-secondary-dark rounded-lg cursor-pointer hover:bg-secondary/80 dark:hover:bg-secondary-dark/80 transition-smooth"
+                onClick={() => onEntrySelect(entry)}
               >
                 <h3 className="text-lg font-semibold mb-2 text-text dark:text-text-dark">
                   {entry.title || formatDate(entry.created)}
                 </h3>
-                {entry.content && (
-                  <p className="text-text-muted dark:text-text-muted-dark line-clamp-2">
-                    {entry.content}
-                  </p>
-                )}
+                <p className="text-text-muted dark:text-text-muted-dark line-clamp-2">
+                  {stripHtml(entry.content) || 'No content'}
+                </p>
                 {entry.tags?.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {entry.tags.map(tag => (
                       <span
                         key={tag}
-                        className="px-2 py-1 text-sm rounded-full bg-accent/10 dark:bg-[#2C2E33]/10 text-accent dark:text-[#2C2E33]"
+                        className="px-2 py-1 text-sm rounded-full bg-primary dark:bg-primary-dark text-text-muted dark:text-text-muted-dark"
                       >
                         {tag}
                       </span>
@@ -88,9 +95,9 @@ const MobileSearch = ({ entries, onEntrySelect, onClose }) => {
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
